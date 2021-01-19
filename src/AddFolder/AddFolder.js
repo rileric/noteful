@@ -56,6 +56,7 @@ class AddFolder extends React.Component {
           className='addFolderName'
           name='folderName'
           id='folderName'
+          required
         />
         <button type='submit' className='saveButton'>Save</button>
       </form>
@@ -66,5 +67,6 @@ class AddFolder extends React.Component {
 export default withRouter(AddFolder);
 
 AddFolder.propTypes = {
+  history: PropTypes.object,
   onAddFolder: PropTypes.func
 }

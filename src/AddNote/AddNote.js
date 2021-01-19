@@ -15,6 +15,7 @@ class AddNote extends React.Component {
       nameTouched: false,
       modified: new Date(),
       folderId: '',
+      folderTouched: false,
       noteContent: ''
     };
     
@@ -33,6 +34,12 @@ class AddNote extends React.Component {
         nameTouched: true
       });
     }
+
+    if(inputName === 'folderId') {
+      this.setState({
+        folderTouched: true
+      });
+    }
   }
 
   validateName() {
@@ -42,6 +49,14 @@ class AddNote extends React.Component {
       if(trimName.length === 0) {
         return( "Name is required and cannot be whitespace.");
       }
+    }
+  }
+
+  validateFolder() {
+    const folderSelected = this.state.folderId;
+
+    if(folderSelected === 'none' || !this.state.folderTouched) { // default value for the dropdown menu
+      return( "Folder is required.");
     }
   }
 
@@ -121,9 +136,10 @@ class AddNote extends React.Component {
           name='noteContent'
           id='noteContent'
           onChange={this.handleInputChange}
+          required
         />
 
-        <button type='submit' className='saveButton' disabled={this.validateName()} >Save</button>
+        <button type='submit' className='saveButton' disabled={ (this.validateName() || this.validateFolder() ) } >Save</button>
       </form>
     )
   }
@@ -133,8 +149,9 @@ export default withRouter(AddNote);
 
 AddNote.propTypes = {
   onAddNote: PropTypes.func,
+  history: PropTypes.object,
   folderList: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
   }))
 }
