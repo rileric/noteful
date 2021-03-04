@@ -15,23 +15,26 @@ export default class Note extends React.Component {
 
   handleClickDelete = e => {
     e.preventDefault()
-    const noteId = this.props.id
+    const note_id = this.props.note_id
 
-    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
-      method: 'DELETE',
+    fetch(`${config.API_ENDPOINT}/notes/${note_id}`, {
+      method: "DELETE",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json"
       },
     })
       .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
+        if (!res.ok) {
+          console.error('response not ok');
+          // return res.json().then(e => Promise.reject(e))
+        }
+        // return res.json()
       })
       .then(() => {
-        this.context.deleteNote(noteId)
+        this.context.deleteNote(note_id)
         // allow parent to perform extra behaviour
-        this.props.onDeleteNote(noteId)
+        this.props.history.push('/');
+        this.props.onDeleteNote(note_id)
       })
       .catch(error => {
         console.error({ error })
@@ -39,13 +42,13 @@ export default class Note extends React.Component {
   }
 
   render() {
-    const { name, id, modified } = this.props;
+    const { note_name, note_id, modified } = this.props;
 
     return (
       <div className='Note'>
         <h2 className='Note__title'>
-          <Link to={`/note/${id}`}>
-            {name}
+          <Link to={`/notes/${note_id}`}>
+            {note_name}
           </Link>
         </h2>
         <button
@@ -72,8 +75,8 @@ export default class Note extends React.Component {
 }
 
 Note.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  note_id: PropTypes.number.isRequired,
+  note_name: PropTypes.string.isRequired,
   modified: PropTypes.string.isRequired,
   onDeleteNote: PropTypes.func
 }

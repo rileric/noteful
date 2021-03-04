@@ -26,5 +26,5 @@ export default class MainErrorBoundary extends Component {
 }
 
 MainErrorBoundary.propTypes = {
-    children: PropTypes.object
+    children: PropTypes.array
 }

@@ -71,17 +71,14 @@ class AddNote extends React.Component {
     const options = {
       method: 'POST',
       body: JSON.stringify({
-        name: noteName,
-        folderId: folderId,
-        modified: new Date(),
+        note_name: noteName,
+        folder_id: folderId,
         content: noteContent
       }),
       headers: {
         "Content-Type": "application/json"
       }
     }
-
-    console.log(options.body);
 
     fetch(url, options)
       .then( res => {
@@ -106,7 +103,7 @@ class AddNote extends React.Component {
 
   render() {
     const folderMenu = this.props.folderList.map(
-      (folder) => <option value={folder.id} key={folder.id}>{folder.name}</option>
+      (folder) => <option value={folder.folder_id} key={folder.folder_id}>{folder.folder_name}</option>
     );
 
   
@@ -151,7 +148,7 @@ AddNote.propTypes = {
   onAddNote: PropTypes.func,
   history: PropTypes.object,
   folderList: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    folder_id: PropTypes.number.isRequired,
+    folder_name: PropTypes.string.isRequired
   }))
 }

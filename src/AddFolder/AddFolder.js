@@ -10,14 +10,13 @@ class AddFolder extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("Saved!");
     let folderName = event.target[0].value;
     let url = `${config.API_ENDPOINT}/folders`;
 
     const options = {
       method: 'POST',
       body: JSON.stringify({
-        name: folderName
+        folder_name: folderName
       }),
       headers: {
         "Content-Type": "application/json"
